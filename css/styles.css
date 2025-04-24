@@ -130,7 +130,15 @@ button[type="submit"] {
 button[type="submit"]:hover {
   background: #218838;
 }
-
+.schedule-option label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1rem;
+  font-weight: normal;
+  justify-content: flex-start;
+  flex-direction: row-reverse; /* CHÌA KHÓA QUAN TRỌNG */
+}
 #statusMessage {
   margin-top: 10px;
   font-weight: bold;
