@@ -25,9 +25,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function renderSchedule() {
     scheduleContainer.innerHTML = "";
-    scheduleData.forEach((group, idx) => {
+    scheduleData.forEach(group => {
       const wrapper = document.createElement("div");
       wrapper.className = "schedule-group";
+
       const title = document.createElement("strong");
       title.innerText = group.question;
       wrapper.appendChild(title);
@@ -85,6 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const selected = document.querySelector(`input[value='${demoData.selectedSlot}']`);
     if (selected && !selected.disabled) selected.checked = true;
+
     statusMessage.innerText = demoData.found ? "✅ Đã nạp dữ liệu mẫu" : "Không tìm thấy dữ liệu";
   });
 
