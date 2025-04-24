@@ -1,114 +1,122 @@
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("registrationForm");
-  const container = document.getElementById("questionContainer");
-  const status = document.getElementById("statusMessage");
+  const scheduleContainer = document.getElementById("scheduleContainer");
+  const statusMessage = document.getElementById("statusMessage");
 
-  const questions = [
+  const scheduleData = [
     {
-      text: "Câu hỏi 1: Ngày 25/04/2025",
+      question: "Ngày 25/04/2025",
       options: {
-        "8h00 - 9h00": 15,
-        "9h00 - 10h00": 20,
-        "10h00 - 11h00": 13
+        "8h00 - 9h00": { limit: 15, count: 0 },
+        "9h00 - 10h00": { limit: 20, count: 0 },
+        "10h00 - 11h00": { limit: 13, count: 0 }
       }
     },
     {
-      text: "Câu hỏi 2: Ngày 26/04/2025",
+      question: "Ngày 26/04/2025",
       options: {
-        "13h00 - 14h00": 24,
-        "14h00 - 15h00": 6,
-        "15h00 - 16h00": 8,
-        "16h00 - 17h00": 10
+        "13h00 - 14h00": { limit: 24, count: 0 },
+        "14h00 - 15h00": { limit: 6, count: 0 },
+        "15h00 - 16h00": { limit: 8, count: 0 },
+        "16h00 - 17h00": { limit: 10, count: 0 }
       }
     }
   ];
 
-  const selectedCounts = {}; // Giả lập lượt đã chọn
+  function renderSchedule() {
+    scheduleContainer.innerHTML = "";
+    scheduleData.forEach((group, idx) => {
+      const wrapper = document.createElement("div");
+      wrapper.className = "schedule-group";
+      const title = document.createElement("strong");
+      title.innerText = group.question;
+      wrapper.appendChild(title);
 
-  function renderQuestions() {
-    container.innerHTML = "";
-    questions.forEach((q, qIdx) => {
-      const block = document.createElement("div");
-      block.className = "question-block";
+      Object.entries(group.options).forEach(([slot, data]) => {
+        const value = `${group.question}|${slot}`;
+        const disabled = data.count >= data.limit ? "disabled" : "";
+        const labelText = data.count >= data.limit
+          ? `${slot} (đã đủ)`
+          : `${slot} (${data.count}/${data.limit})`;
 
-      const title = document.createElement("div");
-      title.className = "question-title";
-      title.innerText = q.text;
-      block.appendChild(title);
-
-      Object.entries(q.options).forEach(([opt, limit]) => {
-        const id = `q${qIdx}-${opt.replace(/\s+/g, "_")}`;
-        const value = `${q.text}|${opt}`;
-        const current = selectedCounts[value] || 0;
-
-        const option = document.createElement("div");
-        option.className = "answer-option";
-        option.innerHTML = `
+        const div = document.createElement("div");
+        div.className = "schedule-option";
+        div.innerHTML = `
           <label>
-            <input type="radio" name="schedule" value="${value}" ${current >= limit ? "disabled" : ""} />
-            <span>${opt} (${current}/${limit})</span>
+            <input type="radio" name="schedule" value="${value}" ${disabled}>
+            <span>${labelText}</span>
           </label>
         `;
-        block.appendChild(option);
+        wrapper.appendChild(div);
       });
 
-      container.appendChild(block);
+      scheduleContainer.appendChild(wrapper);
     });
 
-    // Đảm bảo chỉ 1 radio được chọn trên toàn form
     document.querySelectorAll("input[name='schedule']").forEach(input => {
-      input.addEventListener("change", e => {
-        document.querySelectorAll("input[name='schedule']").forEach(r => {
-          if (r !== e.target) r.checked = false;
+      input.addEventListener("change", () => {
+        document.querySelectorAll("input[name='schedule']").forEach(i => {
+          if (i !== input) i.checked = false;
         });
       });
     });
   }
 
-  renderQuestions();
+  renderSchedule();
 
   document.getElementById("checkCodeBtn").addEventListener("click", () => {
     const id = document.getElementById("employeeId").value.trim();
     if (!id) return;
-    // Giả lập nạp dữ liệu
-    const demo = {
+
+    const demoData = {
+      found: true,
       fullName: "Nguyễn Văn A",
       dob: "01/01/1990",
       gender: "Nam",
-      selected: "Câu hỏi 2: Ngày 26/04/2025|15h00 - 16h00"
+      selectedSlot: "Ngày 25/04/2025|9h00 - 10h00"
     };
 
-    document.getElementById("fullName").value = demo.fullName;
-    const [d, m, y] = demo.dob.split("/");
+    document.getElementById("fullName").value = demoData.fullName;
+    const [d, m, y] = demoData.dob.split("/");
     document.getElementById("dob-day").value = d;
     document.getElementById("dob-month").value = m;
     document.getElementById("dob-year").value = y;
-    document.getElementById("gender").value = demo.gender;
+    document.getElementById("gender").value = demoData.gender;
 
-    const radio = document.querySelector(`input[value="${demo.selected}"]`);
-    if (radio && !radio.disabled) radio.checked = true;
-
-    status.innerText = "✅ Dữ liệu mẫu đã được tải";
+    const selected = document.querySelector(`input[value='${demoData.selectedSlot}']`);
+    if (selected && !selected.disabled) selected.checked = true;
+    statusMessage.innerText = demoData.found ? "✅ Đã nạp dữ liệu mẫu" : "Không tìm thấy dữ liệu";
   });
 
-  form.addEventListener("submit", e => {
+  form.addEventListener("submit", (e) => {
     e.preventDefault();
-
-    const selected = document.querySelector("input[name='schedule']:checked")?.value;
+    const selected = document.querySelector("input[name='schedule']:checked");
     if (!selected) {
-      status.innerText = "❗ Vui lòng chọn 1 khung giờ.";
+      statusMessage.innerText = "❗ Vui lòng chọn 1 khung giờ.";
       return;
     }
 
     const data = {
       employeeId: document.getElementById("employeeId").value,
       fullName: document.getElementById("fullName").value,
-      dob: `${document.getElementById("dob-day").value}/${document.getElementById("dob-month").value}/${document.getElementById("dob-year").value}`,
+      dob: combineDOB(),
       gender: document.getElementById("gender").value,
-      selectedSlot: selected
+      selectedSlot: selected.value
     };
 
-    console.log("📤 Gửi dữ liệu:", data);
-    status.innerText = "✅ Đăng ký thành công (demo)";
+    if (!data.employeeId || !data.fullName || !data.dob || !data.gender) {
+      statusMessage.innerText = "❗ Vui lòng nhập đầy đủ thông tin.";
+      return;
+    }
+
+    console.log("📥 Dữ liệu gửi:", data);
+    statusMessage.innerText = "✅ Đã gửi thông tin (giả lập console).";
   });
+
+  function combineDOB() {
+    const d = document.getElementById("dob-day").value.padStart(2, "0");
+    const m = document.getElementById("dob-month").value.padStart(2, "0");
+    const y = document.getElementById("dob-year").value;
+    return d && m && y ? `${d}/${m}/${y}` : "";
+  }
 });
