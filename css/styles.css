@@ -1,3 +1,4 @@
+/* Toàn bộ nền và căn giữa */
 body {
   font-family: Arial, sans-serif;
   background: linear-gradient(to bottom, #d0ebff, #ffffff);
@@ -5,16 +6,21 @@ body {
   padding: 0;
   min-height: 100vh;
   display: flex;
+  justify-content: center;
   align-items: center;
+}
+
+/* Khung bao toàn bộ nội dung */
+.main-wrapper {
+  width: 100%;
+  max-width: 1000px;
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
   justify-content: center;
 }
 
-.main-wrapper {
-  width: 100%;
-  padding: 20px;
-  box-sizing: border-box;
-}
-
+/* Nội dung form chính */
 .container {
   max-width: 700px;
   width: 100%;
@@ -25,20 +31,21 @@ body {
   border: 1px solid #ccc;
 }
 
+/* Tiêu đề */
 h1, h2 {
   text-align: center;
   color: #1a237e;
-  margin-top: 0;
 }
 
+/* Trường nhập */
 .form-field {
-  margin-bottom: 16px;
+  margin-bottom: 15px;
 }
 
 label {
   font-weight: bold;
   display: block;
-  margin-bottom: 6px;
+  margin-bottom: 5px;
 }
 
 input, select, button {
@@ -46,6 +53,7 @@ input, select, button {
   box-sizing: border-box;
 }
 
+/* Nhóm ô nhập mã nhân viên */
 .input-group {
   display: flex;
   gap: 10px;
@@ -71,6 +79,7 @@ input, select, button {
   background: #0056b3;
 }
 
+/* Nhập ngày sinh */
 .dob-group {
   display: flex;
   gap: 10px;
@@ -82,49 +91,54 @@ input, select, button {
   padding: 10px;
 }
 
-.question-block {
+/* Câu hỏi và đáp án */
+.schedule-group {
   border: 1px solid #ccc;
-  border-radius: 10px;
-  padding: 15px;
+  border-radius: 8px;
+  padding: 12px 16px;
   margin-bottom: 20px;
   background-color: #f9f9f9;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
 }
 
-.question-block h3 {
-  margin: 0 0 12px;
+.schedule-group strong {
+  display: block;
   font-size: 1.1rem;
+  margin-bottom: 10px;
   color: #1a237e;
+  font-weight: 700;
   border-bottom: 1px solid #ccc;
-  padding-bottom: 5px;
+  padding-bottom: 4px;
 }
 
-.option {
-  margin: 4px 0;
+/* Đáp án hiển thị */
+.schedule-option {
+  margin: 3px 0;
 }
 
-.option label {
+.schedule-option label {
   display: flex;
   align-items: center;
-  justify-content: flex-start; /* ✅ Đáp án căn trái */
+  justify-content: flex-start;
   gap: 10px;
   font-weight: normal;
 }
 
+/* Thông báo */
 #statusMessage {
   margin-top: 10px;
   font-weight: bold;
   color: green;
 }
 
+/* Nút gửi */
 button[type="submit"] {
   background: #28a745;
   color: white;
-  padding: 12px;
+  padding: 10px;
   width: 100%;
   border: none;
-  border-radius: 5px;
-  font-size: 16px;
+  border-radius: 4px;
   cursor: pointer;
 }
 
