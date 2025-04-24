@@ -25,17 +25,13 @@ body {
   margin: auto;
 }
 
-h1 {
+h1, h2 {
   text-align: center;
   color: #1a237e;
   margin-top: 0;
-  font-size: 2rem;
 }
 
 h2 {
-  text-align: center;
-  color: #1a237e;
-  margin-top: 0;
   font-size: 1.4rem;
 }
 
@@ -90,7 +86,6 @@ input, select, button {
   padding: 10px;
 }
 
-/* Nhóm câu hỏi */
 .schedule-group {
   margin-bottom: 30px;
   padding: 16px 20px;
@@ -100,15 +95,13 @@ input, select, button {
   box-shadow: 0 2px 5px rgba(0,0,0,0.05);
 }
 
-/* Tiêu đề câu hỏi */
 .schedule-group strong {
   display: block;
-  font-size: 1.4rem; /* lớn hơn đáp án */
+  font-size: 1.4rem;
   color: #1a237e;
   margin-bottom: 12px;
 }
 
-/* Đáp án */
 .schedule-option {
   margin: 5px 0;
 }
@@ -118,14 +111,9 @@ input, select, button {
   align-items: center;
   font-size: 1rem;
   font-weight: normal;
-  gap: 8px;
+  gap: 6px;
   justify-content: flex-start;
   padding-left: 4px;
-}
-
-input[type="radio"] {
-  flex-shrink: 0;
-  vertical-align: middle;
 }
 
 button[type="submit"] {
