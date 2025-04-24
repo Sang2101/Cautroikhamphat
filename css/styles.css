@@ -70,7 +70,6 @@ input, select, button {
   color: white;
   border: none;
   cursor: pointer;
-  border-radius: 4px;
 }
 
 .input-group button:hover {
@@ -89,7 +88,7 @@ input, select, button {
 
 .schedule-group {
   margin-bottom: 30px;
-  padding: 16px;
+  padding: 16px 20px;
   border-radius: 10px;
   border: 1px solid #ccc;
   background-color: #f9f9f9;
@@ -110,11 +109,11 @@ input, select, button {
 .schedule-option label {
   display: flex;
   align-items: center;
-  gap: 12px;
   font-size: 1rem;
   font-weight: normal;
-  justify-content: flex-start; /* giữ radio ở bên trái */
-  flex-direction: row; /* đảm bảo text nằm bên phải */
+  gap: 6px;
+  justify-content: flex-start;
+  padding-left: 4px;
 }
 
 button[type="submit"] {
